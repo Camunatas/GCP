@@ -5,6 +5,9 @@
 from pyomo.environ import *
 from pyomo.opt import SolverFactory
 import matplotlib.pyplot as plt
+import pylab
+from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d import proj3d
 import numpy_financial as npf
 import numpy as np
 import pandas as pd
@@ -79,8 +82,9 @@ TIRs = []
 for Batt_Pmax in np.arange(1, 10, 0.5):
 	for Batt_Emax in np.arange(1, 10, 0.5):
 		Cap_cost = 50000 * Batt_Pmax + 200000 * Batt_Emax
-		OM_cost = 10000
 		SOC, P_output = daily(SOC_i, Price, Batt_Emax, Batt_Pmax, Batt_Efficiency)
+		P_output_total = sum([abs(ele) for ele in P_output])
+		OM_cost = 10 * P_output_total
 		SOC = [i * (100 // Batt_Emax) for i in SOC]
 		SOC.append(0)
 		if SOC[-1] == 0:
@@ -91,22 +95,22 @@ for Batt_Pmax in np.arange(1, 10, 0.5):
 		Powers.append(Batt_Pmax)
 		TIRs.append(IRR)
 
-print(len(Powers))
-print(len(Capacities))
-print(len(TIRs))
-
+optP = Powers[TIRs.index(max(TIRs))]
+optE = Capacities[TIRs.index(max(TIRs))]
 # Creating grid for surface plotting with scattered data
-fig = plt.figure()
+fig = pylab.figure()
 X = Powers
 Y = Capacities
 Z = TIRs
 
 ax = fig.gca(projection='3d')
-ax.plot_trisurf(X, Y, Z)
+ax.plot_trisurf(X, Y, Z, color='g', alpha=0.75)
+ax.text2D(0.05, 0.95, 'Optimum power is {} MW, optimum capacity is {} MWh'.format(optP, optE), transform=ax.transAxes)
+ax.scatter(optP, optE, max(TIRs), s=100, color='r', alpha=1)
 
 # Plot labels
 ax.set_xlabel('Power (MW)')
 ax.set_ylabel('Capacity (MWh)')
 ax.set_zlabel('IRR (%)')
 
-plt.show()
+pylab.show()
