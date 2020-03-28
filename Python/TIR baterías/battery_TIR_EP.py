@@ -14,7 +14,8 @@ import pandas as pd
 
 # -- Simulation parameters --
 Batt_Efficiency = 0.9               # Rated battery efficiency
-
+Batt_ncycles = 4500					# Rated lifetime in cycles
+project_length = 25*365				# Project duration (days)
 # -- Data initialization --
 SOC_i = 0                           # [%] Initial battery SOC
 
@@ -72,7 +73,8 @@ def daily(initial_SOC, energy_price, batt_capacity, batt_maxpower, batt_efficien
 	# Extracting data from model
 	SOC = [model.SOC[t1]() for t1 in model.time]
 	P_output = [-model.ESS_D[t1]() + model.ESS_C[t1]() for t1 in model.time]
-	return SOC, P_output
+	Cap_fade = [0.00024 * np.exp(0.02717*298)*0.02982 * np.power(((model.ESS_D[t1]() + model.ESS_C[t1]()) / batt_capacity), 0.4904) * np.power(0.5, 0.5) for t1 in model.time]
+	return SOC, P_output, Cap_fade
 
 
 # Obtaining IRR for different battery powers
@@ -81,31 +83,68 @@ Capacities = []
 TIRs = []
 for Batt_Pmax in np.arange(1, 10, 0.5):
 	for Batt_Emax in np.arange(1, 10, 0.5):
-		Cap_cost = 50000 * Batt_Pmax + 200000 * Batt_Emax
-		SOC, P_output = daily(SOC_i, Price, Batt_Emax, Batt_Pmax, Batt_Efficiency)
-		P_output_total = sum([abs(ele) for ele in P_output])
-		OM_cost = 10 * P_output_total
+		Capital_cost = 50000 * Batt_Pmax + 200000 * Batt_Emax
+		SOC, P_output, Cap_fade = daily(SOC_i, Price, Batt_Emax, Batt_Pmax, Batt_Efficiency)
+		E_output_total = sum([abs(ele) for ele in P_output])
+		n_cycles = (E_output_total / (Batt_Emax*2)) * project_length
+		Cap_loss = round(sum(Cap_fade) * project_length, 2)
+		n_batteries = n_cycles / Batt_ncycles
+		replacements = Cap_loss // 100
+		OM_cost = Capital_cost*(replacements - 1)
 		SOC = [i * (100 // Batt_Emax) for i in SOC]
 		SOC.append(0)
 		if SOC[-1] == 0:
 			P_output[-1] = 0
-		FC = sum([(-a * b)*365*25 - OM_cost for a, b in zip(P_output, Price)])
-		IRR = npf.irr([-Cap_cost, FC])
+		earning = sum([(-a * b) * project_length for a, b in zip(P_output, Price)])
+		FC = earning - OM_cost
+		IRR = npf.irr([-Capital_cost, FC])
 		Capacities.append(Batt_Emax)
 		Powers.append(Batt_Pmax)
 		TIRs.append(IRR)
 
+# Obtaining optimum
 optP = Powers[TIRs.index(max(TIRs))]
 optE = Capacities[TIRs.index(max(TIRs))]
+
+optP = 3
+optE = 6
+
+# Displaying results for optimum
+Capital_cost = 50000 * optP + 200000 * optE
+SOC, P_output, Cap_fade = daily(SOC_i, Price, optP, optE, Batt_Efficiency)
+E_output_total = sum([abs(ele) for ele in P_output])
+n_cycles = (E_output_total / (optE*2)) * project_length
+Cap_loss = round(sum(Cap_fade) * project_length, 2)
+n_batteries = n_cycles / Batt_ncycles
+replacements = Cap_loss // 100
+OM_cost = Capital_cost*(replacements - 1)
+SOC = [i * (100 // optE) for i in SOC]
+SOC.append(0)
+if SOC[-1] == 0:
+	P_output[-1] = 0
+earning = sum([(-a * b) * project_length for a, b in zip(P_output, Price)])
+FC = earning - OM_cost
+IRR = npf.irr([-Capital_cost, FC])
+
+print('Results for {} MW, {} MWh, ({})h'.format(optP, optE, round(optE/optP, 2)))
+print('Capital cost is {}€'.format(int(Capital_cost)))
+print('It moves {} MW a day, {} MW in total'.format(round(E_output_total, 2), round(E_output_total*project_length, 2)))
+print('It performs {} cycles, which can be considered as costing ({}) batteries'.format(round(n_cycles, 2), round(n_batteries, 2)))
+print('Theorically, capacity fades a {}%, costing {} batteries'.format(round(Cap_loss, 2), int(replacements)))
+print('O&M costs reach {}€'.format(round(abs(OM_cost), 2)))
+print('The project earnings are {}€'.format(round(earning, 2)))
+print('Cash flux is {}€'.format(round(FC, 2)))
+print('Project total balance is {}€'.format(round(FC-Capital_cost, 2)))
+print('TIR is {}%'.format(round(IRR, 2)))
+
 # Creating grid for surface plotting with scattered data
 fig = pylab.figure()
 X = Powers
 Y = Capacities
 Z = TIRs
-
 ax = fig.gca(projection='3d')
 ax.plot_trisurf(X, Y, Z, color='g', alpha=0.75)
-ax.text2D(0.05, 0.95, 'Optimum power is {} MW, optimum capacity is {} MWh'.format(optP, optE), transform=ax.transAxes)
+ax.text2D(0.05, 0.95, 'Optimum power is {} MW, optimum capacity is {} MWh, ({})h'.format(optP, optE, round(optE/optP, 2)), transform=ax.transAxes)
 ax.scatter(optP, optE, max(TIRs), s=100, color='r', alpha=1)
 
 # Plot labels

@@ -9,8 +9,8 @@ import numpy as np
 import pandas as pd
 
 # -- Simulation parameters --
-Batt_Emax = 4                       # Rated battery energy (MWh)
-Batt_Pmax = Batt_Emax/8             # Rated battery power (MW)
+Batt_Emax = 10                       # Rated battery energy (MWh)
+Batt_Pmax = 10             # Rated battery power (MW)
 Batt_Efficiency = 0.9               # Rated battery efficiency
 
 # -- Data initialization --
