@@ -79,6 +79,7 @@ def daily(initial_SOC, energy_price, batt_capacity, batt_maxpower, batt_efficien
 Powers = []
 Capacities = []
 TIRs = []
+improve_rate = 7.5
 for Batt_Pmax in np.arange(1, 10, 0.5):
 	for Batt_Emax in np.arange(1, 10, 0.5):
 		Capital_cost = 50000 * Batt_Pmax + 200000 * Batt_Emax
@@ -89,18 +90,39 @@ for Batt_Pmax in np.arange(1, 10, 0.5):
 		SOC.append(0)
 		if SOC[-1] == 0:
 			P_output[-1] = 0
-		FC = sum([(-a * b) * project_length - OM_cost for a, b in zip(P_output, Price)])
-		IRR = npf.irr([-Capital_cost, FC])
+		earning = sum([(-a * b) for a, b in zip(P_output, Price)]) * improve_rate
+		FC = (earning - OM_cost) * project_length
+		IRR = npf.irr([-Capital_cost, FC]) * 100
 		Capacities.append(Batt_Emax)
 		Powers.append(Batt_Pmax)
 		TIRs.append(IRR)
 
-print(E_output_total)
-print(OM_cost)
-print(IRR)
 # Obtaining optimum
 optP = Powers[TIRs.index(max(TIRs))]
 optE = Capacities[TIRs.index(max(TIRs))]
+
+# Displaying results for optimum
+Capital_cost = 50000 * Batt_Pmax + 200000 * Batt_Emax
+SOC, P_output = daily(SOC_i, Price, Batt_Emax, Batt_Pmax, Batt_Efficiency)
+E_output_total = sum([abs(ele) for ele in P_output])
+OM_cost = 10 * E_output_total
+SOC = [i * (100 // Batt_Emax) for i in SOC]
+SOC.append(0)
+if SOC[-1] == 0:
+	P_output[-1] = 0
+earning = sum([(-a * b) for a, b in zip(P_output, Price)]) * improve_rate
+FC = (earning - OM_cost) * project_length
+IRR = npf.irr([-Capital_cost, FC]) * 100
+
+
+print('Results for optimal point which is found at {} MW, {} MWh, ({})h'.format(optP, optE, round(optE/optP, 2)))
+print('Capital cost is {}€'.format(int(Capital_cost)))
+print('It moves {} MW a day, {} MW in total'.format(round(E_output_total, 2), round(E_output_total*project_length, 2)))
+print('O&M costs reach {}€'.format(round(abs(OM_cost), 2)))
+print('The project earnings are {}€'.format(round(earning, 2)))
+print('Cash flux is {}€'.format(round(FC, 2)))
+print('Project total balance is {}€'.format(round(FC-Capital_cost, 2)))
+print('TIR is {}%'.format(round(IRR, 2)))
 
 # Creating grid for surface plotting with scattered data
 fig = pylab.figure()
