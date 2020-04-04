@@ -22,8 +22,19 @@ SOC_i = 0                           # [%] Initial battery SOC
 # -- Data importing --
 data = pd.read_excel('Prices.xlsx', sheet_name='Prices', nrows=200)
 
-# -- Generating price prediction
+# -- Reading price data
 Price = list(data['Price'][0:25])
+
+# -- Generating improvement price data
+Price_med = sum(Price)/len(Price)
+Improvement = 0.98				# [%] Improvement ratio
+Price_Improved = []
+for element in Price:
+	if element > Price_med:
+		price_improved = element*(1+Improvement)
+	else:
+		price_improved = element * (1 - Improvement)
+	Price_Improved.append(price_improved)
 
 # -- Daily market --
 def daily(initial_SOC, energy_price, batt_capacity, batt_maxpower, batt_efficiency):
@@ -84,20 +95,20 @@ TIRs = []
 for Batt_Pmax in np.arange(1, 10, 0.5):
 	for Batt_Emax in np.arange(1, 10, 0.5):
 		Capital_cost = 50000 * Batt_Pmax + 200000 * Batt_Emax
-		SOC, P_output, Cap_fade = daily(SOC_i, Price, Batt_Emax, Batt_Pmax, Batt_Efficiency)
+		SOC, P_output, Cap_fade = daily(SOC_i, Price_Improved, Batt_Emax, Batt_Pmax, Batt_Efficiency)
+		SOC = [i * (100 // Batt_Emax) for i in SOC]
+		SOC.append(0)
+		if SOC[-1] == 0:
+			P_output[-1] = 0
 		E_output_total = sum([abs(ele) for ele in P_output])
 		n_cycles = (E_output_total / (Batt_Emax*2)) * project_length
 		Cap_loss = round(sum(Cap_fade) * project_length, 2)
 		n_batteries = n_cycles / Batt_ncycles
 		replacements = Cap_loss // 100
 		OM_cost = Capital_cost*(replacements - 1)
-		SOC = [i * (100 // Batt_Emax) for i in SOC]
-		SOC.append(0)
-		if SOC[-1] == 0:
-			P_output[-1] = 0
-		earning = sum([(-a * b) * project_length for a, b in zip(P_output, Price)])
+		earning = sum([(-a * b) for a, b in zip(P_output, Price_Improved)]) * project_length
 		FC = earning - OM_cost
-		IRR = npf.irr([-Capital_cost, FC])
+		IRR = npf.irr([-Capital_cost, FC]) * 100
 		Capacities.append(Batt_Emax)
 		Powers.append(Batt_Pmax)
 		TIRs.append(IRR)
@@ -106,12 +117,9 @@ for Batt_Pmax in np.arange(1, 10, 0.5):
 optP = Powers[TIRs.index(max(TIRs))]
 optE = Capacities[TIRs.index(max(TIRs))]
 
-optP = 3
-optE = 6
-
 # Displaying results for optimum
 Capital_cost = 50000 * optP + 200000 * optE
-SOC, P_output, Cap_fade = daily(SOC_i, Price, optP, optE, Batt_Efficiency)
+SOC, P_output, Cap_fade = daily(SOC_i, Price_Improved, optP, optE, Batt_Efficiency)
 E_output_total = sum([abs(ele) for ele in P_output])
 n_cycles = (E_output_total / (optE*2)) * project_length
 Cap_loss = round(sum(Cap_fade) * project_length, 2)
@@ -122,10 +130,11 @@ SOC = [i * (100 // optE) for i in SOC]
 SOC.append(0)
 if SOC[-1] == 0:
 	P_output[-1] = 0
-earning = sum([(-a * b) * project_length for a, b in zip(P_output, Price)])
+earning = sum([(-a * b) for a, b in zip(P_output, Price_Improved)]) * project_length
 FC = earning - OM_cost
-IRR = npf.irr([-Capital_cost, FC])
+IRR = npf.irr([-Capital_cost, FC]) * 100
 
+print('Simulation run with an earning improvement of {}'.format(Improvement))
 print('Results for {} MW, {} MWh, ({})h'.format(optP, optE, round(optE/optP, 2)))
 print('Capital cost is {}€'.format(int(Capital_cost)))
 print('It moves {} MW a day, {} MW in total'.format(round(E_output_total, 2), round(E_output_total*project_length, 2)))
