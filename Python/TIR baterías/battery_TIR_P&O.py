@@ -85,19 +85,6 @@ def daily(initial_SOC, energy_price, batt_capacity, batt_maxpower, batt_efficien
 	IRR = npf.irr([-Capital_cost, FC]) * 100
 	return IRR
 
-
-# Obtaining optimal by brute force
-# Powers = []
-# Capacities = []
-# TIRs = []
-# for Batt_Pmax in np.arange(1, 10, 0.5):
-# 	for Batt_E in np.arange(1, 10, 0.5):
-# 		SOC, P_output, Capital_cost, E_output, OM_cost, earning, FC, IRR = \
-# 		daily(SOC_i, Price, Batt_E, Batt_Pmax, Batt_Efficiency, Project_length)
-# 		Capacities.append(Batt_E)
-# 		Powers.append(Batt_Pmax)
-# 		TIRs.append(IRR)
-
 # -- Obtaining optimal by perturb and observe --
 # Initializing vectors
 IRRs = []
@@ -105,97 +92,91 @@ Capacities = []
 Powers = []
 # Algorithm step
 delta = 0.5
-
+loopcount = 0
 # Applying P&O algorithm for a range of energies
-Batt_E = 5
-IRR_local = [0]				# Local IRR vector
-Powers_local = [0]			# Local powers vector
-Power = 5
-IRR = daily(SOC_i, Price, Batt_E, Power, Batt_Efficiency, Project_length)
-Powers_local.append(Power)
-IRR_local.append(IRR)
-Power = Power + delta
-IRR = daily(SOC_i, Price, Batt_E, Power, Batt_Efficiency, Project_length)
-Powers_local.append(Power)
-IRR_local.append(IRR)
-enabler = 1
 for Batt_E in np.arange(1, 10, 0.5):
+	IRR_local = [0]				# Local IRR vector
+	Powers_local = [0]			# Local powers vector
+	Power = 5
+	IRR = daily(SOC_i, Price, Batt_E, Power, Batt_Efficiency, Project_length)
+	Powers_local.append(Power)
+	IRR_local.append(IRR)
+	Power = Power + delta
+	IRR = daily(SOC_i, Price, Batt_E, Power, Batt_Efficiency, Project_length)
+	Powers_local.append(Power)
+	IRR_local.append(IRR)
+	enabler = 1
 	while enabler == 1:
 		if IRR_local[-1] - IRR_local[-2] > 0:
-			print(1)
 			if Powers_local[-1] - Powers_local[-2] > 0:
-				print(1.1)
 				Power = Power + delta
 				IRR = daily(SOC_i, Price, Batt_E, Power, Batt_Efficiency, Project_length)
 				Powers_local.append(Power)
 				IRR_local.append(IRR)
 			if Powers_local[-1] - Powers_local[-2] < 0:
-				print(1.2)
 				Power = Power - delta
 				IRR = daily(SOC_i, Price, Batt_E, Power, Batt_Efficiency, Project_length)
 				Powers_local.append(Power)
 				IRR_local.append(IRR)
 		elif IRR_local[-1] - IRR_local[-2] < 0:
-			print(2)
 			if Powers_local[-1] - Powers_local[-2] > 0:
-				print(2.1)
 				Power = Power - delta
 				IRR = daily(SOC_i, Price, Batt_E, Power, Batt_Efficiency, Project_length)
 				Powers_local.append(Power)
 				IRR_local.append(IRR)
 			elif Powers_local[-1] - Powers_local[-2] < 0:
-				print(2.2)
 				Power = Power + delta
 				IRR = daily(SOC_i, Price, Batt_E, Power, Batt_Efficiency, Project_length)
 				Powers_local.append(Power)
 				IRR_local.append(IRR)
 		if len(IRR_local) > 2:
-				print(2.3)
 				if IRR_local[-1] < IRR_local[-2] and IRR_local[-2] > IRR_local[-3]:
 					enabler = 0
+		loopcount = loopcount + 1
 	Capacities.append(Batt_E)
 	Powers.append(Powers_local[-2])
 	IRRs.append(IRR_local[-2])
 
-print('Optimal IRR is {} at {} MW'.format(max(IRRs), Powers_local[-2]))
+# Extracting optimal and displaying results
+optIRR = max(IRRs)
+optP = Powers[IRRs.index(max(IRRs))]
+optE = Capacities[IRRs.index(max(IRRs))]
+print('Optimal IRR is {} at {} MW and {} MWh ({}) hours'.format(optIRR, optP, optE, optE/optP))
+print('Optimization process took {} simulations'.format(loopcount))
 
+# Obtaining IRR for different battery powers
+Powers_bruteforce = []
+Capacities_bruteforce = []
+IRRs_bruteforce = []
+largeloopcounter = 0
+for Batt_Pmax in np.arange(1, 10, 0.5):
+	for Batt_Emax in np.arange(1, 10, 0.5):
+		IRR = daily(SOC_i, Price, Batt_Emax, Batt_Pmax, Batt_Efficiency, Project_length)
+		Capacities_bruteforce.append(Batt_Emax)
+		Powers_bruteforce.append(Batt_Pmax)
+		IRRs_bruteforce.append(IRR)
+		largeloopcounter = largeloopcounter + 1
 
-# Displaying results for optimum
-# Capital_cost = 50000 * Batt_Pmax + 200000 * Batt_Emax
-# SOC, P_output = daily(SOC_i, Price, Batt_Emax, Batt_Pmax, Batt_Efficiency)
-# E_output_total = sum([abs(ele) for ele in P_output])
-# OM_cost = 10 * E_output_total
-# SOC = [i * (100 // Batt_Emax) for i in SOC]
-# SOC.append(0)
-# if SOC[-1] == 0:
-# 	P_output[-1] = 0
-# earning = sum([(-a * b) for a, b in zip(P_output, Price)]) * improve_rate
-# FC = (earning - OM_cost) * project_length
-# IRR = npf.irr([-Capital_cost, FC]) * 100
+optIRR_bruteforce = max(IRRs_bruteforce)
+optP_bruteforce = Powers_bruteforce[IRRs_bruteforce.index(optIRR_bruteforce)]
+optE_bruteforce = Capacities_bruteforce[IRRs_bruteforce.index(optIRR_bruteforce)]
 
+print('Optimal IRR found by brute force is {} at {} MW and {} MWh ({}) hours'.format(optIRR_bruteforce, optP_bruteforce, optE_bruteforce, optE_bruteforce/optP_bruteforce))
+print('Brute force took {} simulations'.format(largeloopcounter))
 
-# print('Results for optimal point which is found at {} MW, {} MWh, ({})h'.format(optP, optE, round(optE/optP, 2)))
-# print('Capital cost is {}€'.format(int(Capital_cost)))
-# print('It moves {} MW a day, {} MW in total'.format(round(E_output, 2), round(E_output*Project_length, 2)))
-# print('O&M costs reach {}€'.format(round(abs(OM_cost), 2)))
-# print('The project earnings are {}€'.format(round(earning, 2)))
-# print('Cash flux is {}€'.format(round(FC, 2)))
-# print('Project total balance is {}€'.format(round(FC-Capital_cost, 2)))
-# print('TIR is {}%'.format(round(IRR, 2)))
-#
-# # Creating grid for surface plotting with scattered data
-# fig = pylab.figure()
-# X = Powers
-# Y = Capacities
-# Z = TIRs
-# ax = fig.gca(projection='3d')
-# ax.plot_trisurf(X, Y, Z, color='g', alpha=0.75)
-# ax.text2D(0.05, 0.95, 'Optimum power is {} MW, optimum capacity is {} MWh, ({})h'.format(optP, optE, round(optE/optP, 2)), transform=ax.transAxes)
-# ax.scatter(optP, optE, max(TIRs), s=100, color='r', alpha=1)
-#
-# # Plot labels
-# ax.set_xlabel('Power (MW)')
-# ax.set_ylabel('Capacity (MWh)')
-# ax.set_zlabel('IRR (%)')
+# Creating grid for surface plotting with scattered data
+fig = pylab.figure()
+X = Powers_bruteforce
+Y = Capacities_bruteforce
+Z = IRRs_bruteforce
+ax = fig.gca(projection='3d')
+ax.plot_trisurf(X, Y, Z, color='g', alpha=0.75)
+ax.text2D(0.05, 0.95, 'Optimum power is {} MW, optimum capacity is {} MWh, ({})h'.format(optP_bruteforce, optE, round(optE_bruteforce/optP_bruteforce, 2)), transform=ax.transAxes)
+ax.scatter(optP_bruteforce, optE_bruteforce, optIRR_bruteforce, s=100, color='r', alpha=1)
+
+# Plot labels
+ax.set_xlabel('Power (MW)')
+ax.set_ylabel('Capacity (MWh)')
+ax.set_zlabel('IRR (%)')
 
 pylab.show()
