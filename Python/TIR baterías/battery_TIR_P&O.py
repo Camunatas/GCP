@@ -1,6 +1,6 @@
-# --- IRR of a Battery Performing Arbitrage for different Powers and Energies---
+# --- Optimization of the sizing of a Standalone Battery doing arbitrage by P&O algorithm---
 # Author: Pedro Luis Camuñas
-# Date: 21/03/2020
+# Date: 09/04/2020
 
 from pyomo.environ import *
 from pyomo.opt import SolverFactory
@@ -173,6 +173,7 @@ ax = fig.gca(projection='3d')
 ax.plot_trisurf(X, Y, Z, color='g', alpha=0.75)
 ax.text2D(0.05, 0.95, 'Optimum power is {} MW, optimum capacity is {} MWh, ({})h'.format(optP_bruteforce, optE, round(optE_bruteforce/optP_bruteforce, 2)), transform=ax.transAxes)
 ax.scatter(optP_bruteforce, optE_bruteforce, optIRR_bruteforce, s=100, color='r', alpha=1)
+ax.scatter(optP, optE, optIRR, s=100, color='b', alpha=1)
 
 # Plot labels
 ax.set_xlabel('Power (MW)')
