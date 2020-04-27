@@ -1,47 +1,38 @@
 # --- Arbitration of a standalone battery connected to the grid ---
 # Author: Pedro Luis Camuñas
-# Date: 02/03/2020
+# Date: 19/11/2019
 
 from pyomo.environ import *
 from pyomo.opt import SolverFactory
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import random as rand
 
 # -- Simulation parameters --
-Batt_Emax = 4                       # [MW] Rated battery energy
-Batt_Pmax = Batt_Emax/4             # [MW] Rated battery power
-Batt_Efficiency = 0.9               # [%] Rated battery efficiency
-Prediction_error_1 = 0.15			# [%] Prediction error for 1 day (%)
-Prediction_error_2 = 0.3            # [%] Prediction error for 2 days (%)
+Batt_Emax = 10                       # Rated battery energy (MWh)
+Batt_Pmax = 10             # Rated battery power (MW)
+Batt_Efficiency = 0.9               # Rated battery efficiency
 
 # -- Data initialization --
-SOC_i = 0                           # [%] Initial battery SOC
+SOC_i = 0                           # Initial battery SOC
 
 # Initializing the daily market schedule with zeros
 # Schedule_DM = []
 # for i in range(24):
-# Schedule_DM.append(0)
+# 	Schedule_DM.append(0)
 
 # -- Data importing --
-data = pd.read_excel('Prices_real.xlsx', sheet_name='Prices_real', nrows=200)
-
-# -- Generating price prediction
-Price_0 = list(data['Price'][0:25])
-Price_1 =  [i + i*rand.uniform(-Prediction_error_1, Prediction_error_1) for i in Price_0]
-Price_2 =  [i + i*rand.uniform(-Prediction_error_1, Prediction_error_2) for i in Price_0]
-Price_pred = Price_0 + Price_1 + Price_2
-Price_real = Price_0 + Price_0 + Price_0
+data = pd.read_excel('Prices_real.xlsx', sheet_name='Prices_real', nrows=200)  # TODO: Change to csv
+Price = list(data['Price'][0:25])
 
 
 # -- Daily market --
 def daily(initial_SOC, energy_price, batt_capacity, batt_maxpower, batt_efficiency):
 	# Model initialization
 	model = ConcreteModel()
-	model.time = range(3*24)
-	model.time2 = range(1, 3*24)
-	model.time3 = range(2*24+25)
+	model.time = range(24)
+	model.time2 = range(1, 24)
+	model.time3 = range(25)
 	model.SOC = Var(model.time3, bounds=(0, batt_capacity))         # Battery SOC
 	model.not_charging = Var(model.time, domain=Binary)             # Charge verifier
 	model.not_discharging = Var(model.time, domain=Binary)          # Discharge verifier
@@ -87,12 +78,11 @@ def daily(initial_SOC, energy_price, batt_capacity, batt_maxpower, batt_efficien
 	P_output = [-model.ESS_D[t1]() + model.ESS_C[t1]() for t1 in model.time]
 	return  SOC, P_output
 
-# Running optimization problem with predicted prices
-SOC, P_output = daily(SOC_i, Price_pred, Batt_Emax, Batt_Pmax, Batt_Efficiency)
+
+SOC, P_output = daily(SOC_i, Price, Batt_Emax, Batt_Pmax, Batt_Efficiency)
 SOC = [i * (100 // Batt_Emax) for i in SOC]
 SOC.append(0)
-
-# Removes last discharge command if SOC at the end of the day is zero in both cases
+# Removes last discharge command if SOC at the end of the day is zero
 if SOC[-1] == 0:
 	P_output[-1] = 0
 
@@ -102,7 +92,7 @@ fig = plt.figure()                              # Creating the figure
 # Energy price
 price_plot = fig.add_subplot(3, 1, 1)           # Creating subplot
 # Setting the grid
-ticks_x = np.arange(0, 2*24+25, 1)                   # Vertical grid spacing
+ticks_x = np.arange(0, 25, 1)                   # Vertical grid spacing
 ticks_y = np.arange(30, 80, 5)                  # Thick horizontal grid spacing
 minor_ticks_y = np.arange(30, 80, 1)            # Thin horizontal grid  spacing
 price_plot.set_xticks(ticks_x)
@@ -113,16 +103,16 @@ price_plot.grid(which='minor', alpha=0.2)       # Thin grid thickness
 price_plot.grid(which='major', alpha=0.7)       # Thick grid thickness
 # Setting the axes
 axes = plt.gca()
-axes.set_xlim([0, 3*24])                          # X axis limits
+axes.set_xlim([0, 24])                          # X axis limits
 # Inyecting the data
-plt.plot(Price_pred, 'r', label='Charge')
+plt.plot(Price, 'r', label='Charge')
 # Adding labels
 plt.ylabel('Price (€/MWh)')
 
 # SOC
 SOC_plot = fig.add_subplot(3, 1, 2)             # Creating subplot
 # Setting the grid
-ticks_x = np.arange(0, 3*24, 1)                   # Vertical grid spacing
+ticks_x = np.arange(0, 50, 1)                   # Vertical grid spacing
 ticks_y = np.arange(0, 105, 10)                 # Thick horizontal grid spacing
 minor_ticks_y = np.arange(0, 100, 5)            # Thin horizontal grid  spacing
 SOC_plot.set_xticks(ticks_x)
@@ -133,7 +123,7 @@ SOC_plot.grid(which='minor', alpha=0.2)         # Thin grid thickness
 SOC_plot.grid(which='major', alpha=0.7)         # Thick grid thickness
 # Setting the axes
 axes = plt.gca()
-axes.set_xlim([0, 3*24])                          # X axis limits
+axes.set_xlim([0, 24])                          # X axis limits
 # Inyecting the data
 plt.plot(SOC, 'b', label='Charge')
 # Adding labels
@@ -142,7 +132,7 @@ plt.ylabel('SOC (%)')
 # Power
 P_output_plot = fig.add_subplot(3, 1, 3)                                    # Creating subplot
 # Setting the grid
-ticks_x = np.arange(0, 24*2+25, 1)                                               # Vertical grid spacing
+ticks_x = np.arange(0, 25, 1)                                               # Vertical grid spacing
 ticks_y = np.arange(-Batt_Pmax*1.5, Batt_Pmax*1.5, 0.5)                     # Thick horizontal grid spacing
 minor_ticks_y = np.arange(-Batt_Pmax*1.5, Batt_Pmax*1.5, 0.1)               # Thin horizontal grid  spacing
 P_output_plot.set_xticks(ticks_x)
@@ -153,9 +143,9 @@ P_output_plot.grid(which='minor', alpha=0.2, zorder=1)                      # Th
 P_output_plot.grid(which='major', alpha=0.7)                                # Thick grid thickness
 # Setting the axes
 axes = plt.gca()
-axes.set_xlim([0, 24*3])                                                      # X axis limits
+axes.set_xlim([0, 24])                                                      # X axis limits
 # Inyecting the data
-x = np.arange(24*3)
+x = np.arange(24)
 plt.bar(x, P_output, color='g', zorder=2)
 # Adding labels
 plt.xlabel('Time (Hours)')

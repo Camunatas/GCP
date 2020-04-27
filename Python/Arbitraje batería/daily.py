@@ -22,7 +22,7 @@ SOC_i = 0                           # Initial battery SOC
 # 	Schedule_DM.append(0)
 
 # -- Data importing --
-data = pd.read_excel('Prices.xlsx', sheet_name='Prices', nrows=200)  # TODO: Change to csv
+data = pd.read_excel('Prices_real.xlsx', sheet_name='Prices_real', nrows=200)  # TODO: Change to csv
 Price = list(data['Price'][0:25])
 
 

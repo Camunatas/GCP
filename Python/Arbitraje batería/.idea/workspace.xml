@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f3ee6b3a-c13c-42e0-907b-2c051ef1dde0" name="Default Changelist" comment="" />
+    <list default="true" id="f3ee6b3a-c13c-42e0-907b-2c051ef1dde0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/battery.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/battery_aging.py" beforeDir="false" afterPath="$PROJECT_DIR$/battery_aging.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/battery_pricepred.py" beforeDir="false" afterPath="$PROJECT_DIR$/battery_pricepred.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/battery_seasons.py" beforeDir="false" afterPath="$PROJECT_DIR$/battery_seasons.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +21,11 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
   <component name="ProjectId" id="1TVse9V70Gub3KbyK2rHzDrbh2e" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -22,12 +33,13 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Python_env" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.battery_TIR_E">
+  <component name="RunManager" selected="Python.iterative">
     <configuration name="GAMESA5" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Battery Optimization" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -41,48 +53,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GAMESA5.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="battery (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Battery Optimization" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../Envejecedor batería" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../Envejecedor batería/battery.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="battery" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Battery Optimization" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/battery.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -154,21 +124,63 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="daily" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Battery Optimization" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/daily.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="iterative" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Battery Optimization" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/iterative.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.GAMESA5" />
-      <item itemvalue="Python.battery (1)" />
-      <item itemvalue="Python.battery" />
-      <item itemvalue="Python.battery_prev" />
-      <item itemvalue="Python.battery_aging" />
       <item itemvalue="Python.battery_TIR_E" />
+      <item itemvalue="Python.battery_aging" />
+      <item itemvalue="Python.battery_prev" />
+      <item itemvalue="Python.daily" />
+      <item itemvalue="Python.iterative" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.iterative" />
+        <item itemvalue="Python.daily" />
         <item itemvalue="Python.battery_TIR_E" />
         <item itemvalue="Python.battery_aging" />
         <item itemvalue="Python.battery_prev" />
-        <item itemvalue="Python.battery (1)" />
-        <item itemvalue="Python.battery" />
       </list>
     </recent_temporary>
   </component>
@@ -190,30 +202,38 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="330" y="68" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1582642481149" />
-    <state width="1899" height="328" key="GridCell.Tab.0.bottom" timestamp="1584718216415">
-      <screen x="-1920" y="-583" width="1920" height="1040" />
+    <state width="1367" height="672" key="GridCell.Tab.0.bottom" timestamp="1587977536035">
+      <screen x="-1366" y="321" width="1366" height="728" />
     </state>
+    <state width="1367" height="672" key="GridCell.Tab.0.bottom/-1366.321.1366.728/0.0.1920.1040@-1366.321.1366.728" timestamp="1587977536035" />
+    <state width="1367" height="672" key="GridCell.Tab.0.bottom/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1587919389086" />
     <state width="1259" height="163" key="GridCell.Tab.0.bottom/0.0.1366.728/-1280.-485.1280.984@-1280.-485.1280.984" timestamp="1583166399580" />
     <state width="1345" height="163" key="GridCell.Tab.0.bottom/0.0.1366.728/-1280.-485.1280.984@0.0.1366.728" timestamp="1582736355472" />
     <state width="1899" height="328" key="GridCell.Tab.0.bottom/0.0.1366.728/-1920.-583.1920.1040@-1920.-583.1920.1040" timestamp="1584718216415" />
     <state width="1345" height="163" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1582643155440" />
-    <state width="1899" height="328" key="GridCell.Tab.0.center" timestamp="1584718216415">
-      <screen x="-1920" y="-583" width="1920" height="1040" />
+    <state width="1367" height="672" key="GridCell.Tab.0.center" timestamp="1587977536035">
+      <screen x="-1366" y="321" width="1366" height="728" />
     </state>
+    <state width="1367" height="672" key="GridCell.Tab.0.center/-1366.321.1366.728/0.0.1920.1040@-1366.321.1366.728" timestamp="1587977536035" />
+    <state width="1367" height="672" key="GridCell.Tab.0.center/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1587919389086" />
     <state width="1259" height="163" key="GridCell.Tab.0.center/0.0.1366.728/-1280.-485.1280.984@-1280.-485.1280.984" timestamp="1583166399580" />
     <state width="1345" height="163" key="GridCell.Tab.0.center/0.0.1366.728/-1280.-485.1280.984@0.0.1366.728" timestamp="1582736355472" />
     <state width="1899" height="328" key="GridCell.Tab.0.center/0.0.1366.728/-1920.-583.1920.1040@-1920.-583.1920.1040" timestamp="1584718216415" />
     <state width="1345" height="163" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1582643155440" />
-    <state width="1899" height="328" key="GridCell.Tab.0.left" timestamp="1584718216415">
-      <screen x="-1920" y="-583" width="1920" height="1040" />
+    <state width="1367" height="672" key="GridCell.Tab.0.left" timestamp="1587977536034">
+      <screen x="-1366" y="321" width="1366" height="728" />
     </state>
+    <state width="1367" height="672" key="GridCell.Tab.0.left/-1366.321.1366.728/0.0.1920.1040@-1366.321.1366.728" timestamp="1587977536034" />
+    <state width="1367" height="672" key="GridCell.Tab.0.left/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1587919389086" />
     <state width="1259" height="163" key="GridCell.Tab.0.left/0.0.1366.728/-1280.-485.1280.984@-1280.-485.1280.984" timestamp="1583166399580" />
     <state width="1345" height="163" key="GridCell.Tab.0.left/0.0.1366.728/-1280.-485.1280.984@0.0.1366.728" timestamp="1582736355471" />
     <state width="1899" height="328" key="GridCell.Tab.0.left/0.0.1366.728/-1920.-583.1920.1040@-1920.-583.1920.1040" timestamp="1584718216415" />
     <state width="1345" height="163" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1582643155440" />
-    <state width="1899" height="328" key="GridCell.Tab.0.right" timestamp="1584718216415">
-      <screen x="-1920" y="-583" width="1920" height="1040" />
+    <state width="1367" height="672" key="GridCell.Tab.0.right" timestamp="1587977536035">
+      <screen x="-1366" y="321" width="1366" height="728" />
     </state>
+    <state width="1367" height="672" key="GridCell.Tab.0.right/-1366.321.1366.728/0.0.1920.1040@-1366.321.1366.728" timestamp="1587977536035" />
+    <state width="1367" height="672" key="GridCell.Tab.0.right/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1587919389086" />
     <state width="1259" height="163" key="GridCell.Tab.0.right/0.0.1366.728/-1280.-485.1280.984@-1280.-485.1280.984" timestamp="1583166399580" />
     <state width="1345" height="163" key="GridCell.Tab.0.right/0.0.1366.728/-1280.-485.1280.984@0.0.1366.728" timestamp="1582736355472" />
     <state width="1899" height="328" key="GridCell.Tab.0.right/0.0.1366.728/-1920.-583.1920.1040@-1920.-583.1920.1040" timestamp="1584718216415" />
@@ -228,5 +248,25 @@
     <state x="-925" y="-231" key="com.intellij.ide.util.TipDialog/0.0.1366.728/-1280.-485.1280.984@-1280.-485.1280.984" timestamp="1582821674879" />
     <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728/-1280.-485.1280.984@0.0.1366.728" timestamp="1582736331367" />
     <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1582642378185" />
+    <state x="623" y="225" key="search.everywhere.popup" timestamp="1587737594385">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" key="search.everywhere.popup/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1587737594385" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/battery_pricepred.py</url>
+          <line>4</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/daily.py</url>
+          <line>4</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
