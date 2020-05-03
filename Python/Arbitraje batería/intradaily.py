@@ -1,16 +1,19 @@
-# --- Arbitration of a standalone battery connected to the grid ---
+# --- Standalone battery doing 48-hour arbitrage schedule and changing it schedule on every session
+# of day D-1's intradaily market---
+#
 # Author: Pedro Luis Camuñas
-# Date: 19/11/2019
+# Date: 29/04/2020
 
 from pyomo.environ import *
 from pyomo.opt import SolverFactory
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import random as rand
 
 # -- Simulation parameters --
-Batt_Emax = 10                       # Rated battery energy (MWh)
-Batt_Pmax = 10             # Rated battery power (MW)
+Batt_Emax = 4                       # Rated battery energy (MWh)
+Batt_Pmax = 2             # Rated battery power (MW)
 Batt_Efficiency = 0.9               # Rated battery efficiency
 
 # -- Data initialization --
@@ -22,17 +25,24 @@ SOC_i = 0                           # Initial battery SOC
 # 	Schedule_DM.append(0)
 
 # -- Data importing --
-data = pd.read_excel('Prices_real.xlsx', sheet_name='Prices_real', nrows=200)  # TODO: Change to csv
-Price = list(data['Price'][0:25])
+data = pd.read_excel('Prices.xlsx', sheet_name='Prices', nrows=200)  # TODO: Change to csv
+Price_real = list(data['Price'][0:48])
+Price_0 = Price_real[0:24] + [i + i*rand.uniform(-0.14, 0.14) for i in Price_real[24:48]]
+Price_1 = Price_real[0:24] + [i + i*rand.uniform(-0.12, 0.12) for i in Price_real[24:48]]
+Price_2 = Price_real[0:24] + [i + i*rand.uniform(-0.1, 0.1) for i in Price_real[24:48]]
+Price_3 = Price_real[0:24] + [i + i*rand.uniform(-0.08, 0.08) for i in Price_real[24:48]]
+Price_4 = Price_real[0:24] + [i + i*rand.uniform(-0.06, 0.06) for i in Price_real[24:48]]
+Price_5 = Price_real[0:24] + [i + i*rand.uniform(-0.04, 0.04) for i in Price_real[24:48]]
+Price_6 = Price_real[0:24] + [i + i*rand.uniform(-0.02, 0.02) for i in Price_real[24:48]]
+Price_7 = Price_real
 
-
-# -- Daily market --
-def daily(initial_SOC, energy_price, batt_capacity, batt_maxpower, batt_efficiency):
+# -- Battery scheduler --
+def scheduler(initial_SOC, energy_price, batt_capacity, batt_maxpower, batt_efficiency, schedule_range):
 	# Model initialization
 	model = ConcreteModel()
-	model.time = range(24)
-	model.time2 = range(1, 24)
-	model.time3 = range(25)
+	model.time = range(schedule_range)
+	model.time2 = range(1, schedule_range)
+	model.time3 = range(schedule_range+1)
 	model.SOC = Var(model.time3, bounds=(0, batt_capacity))         # Battery SOC
 	model.not_charging = Var(model.time, domain=Binary)             # Charge verifier
 	model.not_discharging = Var(model.time, domain=Binary)          # Discharge verifier
@@ -69,87 +79,180 @@ def daily(initial_SOC, energy_price, batt_capacity, batt_maxpower, batt_efficien
 	# Applying the solver
 	opt = SolverFactory('cbc')
 	opt.solve(model)
-	model.pprint()
+	# model.pprint()
 
 	# Extracting data from model
-	# Schedule = [model.ESS_D[t1]() - model.ESS_C[t1]() for t1 in model.time]
-	# Charge = [model.ESS_C[t1]() + model.ESS_D[t1]() for t1 in model.time]
-	SOC = [model.SOC[t1]() for t1 in model.time]
 	P_output = [-model.ESS_D[t1]() + model.ESS_C[t1]() for t1 in model.time]
-	return  SOC, P_output
 
+	SOC = [model.SOC[t1]() for t1 in model.time]
+	return P_output, SOC
 
-SOC, P_output = daily(SOC_i, Price, Batt_Emax, Batt_Pmax, Batt_Efficiency)
-SOC = [i * (100 // Batt_Emax) for i in SOC]
-SOC.append(0)
-# Removes last discharge command if SOC at the end of the day is zero
-if SOC[-1] == 0:
-	P_output[-1] = 0
+# Session 0
+Powers_0, SOC_0 = scheduler(SOC_i, Price_0, Batt_Emax, Batt_Pmax, Batt_Efficiency, len(Price_0))
+CashFlow_0_real = sum([(-a * b) for a, b in zip(Powers_0, Price_real)])
+print('- Session 0, daily market D (scheduled D + D1 with 14% error): {} €'.format(round(CashFlow_0_real, 2)))
 
+# Session 1
+Powers_1, SOC_1 = scheduler(SOC_i, Price_1, Batt_Emax, Batt_Pmax, Batt_Efficiency, len(Price_1))
+CashFlow_1_real = sum([(-a * b) for a, b in zip(Powers_1, Price_real)])
+print('- Session 1 (re-scheduled D + D1 with  12% error): {} €'.format(round(CashFlow_1_real, 2)))
+
+# Session 2
+Powers_2, SOC_2 = scheduler(SOC_i, Price_2, Batt_Emax, Batt_Pmax, Batt_Efficiency, len(Price_2))
+CashFlow_2_real = sum([(-a * b) for a, b in zip(Powers_2, Price_real)])
+print('- Session 2 (re-scheduled D + D1 with 10% error): {} €'.format(round(CashFlow_2_real, 2)))
+
+# Session 3
+Powers_3, SOC_3 = scheduler(SOC_i, Price_3, Batt_Emax, Batt_Pmax, Batt_Efficiency, len(Price_3))
+CashFlow_3_real = sum([(-a * b) for a, b in zip(Powers_3, Price_real)])
+print('- Session 3 (re-scheduled D + D1 with 8% error): {} €'.format(round(CashFlow_3_real, 2)))
+
+# Session 4
+Powers_4, SOC_4 = scheduler(SOC_3[5], Price_4[5:len(Price_4)], Batt_Emax, Batt_Pmax, Batt_Efficiency, 43)
+Powers_4 = Powers_3[0:5] + Powers_4
+SOC_4 = SOC_3[0:5] + SOC_4
+CashFlow_4_real = sum([(-a * b) for a, b in zip(Powers_4, Price_real)])
+print('- Session 4 (re-scheduled 5-24h of D  & D1 complete D+1 with 6% error): {} €'.format(round(CashFlow_4_real, 2)))
+
+# Session 5
+Powers_5, SOC_5 = scheduler(SOC_3[8], Price_5[8:len(Price_5)], Batt_Emax, Batt_Pmax, Batt_Efficiency, 40)
+Powers_5 = Powers_4[0:8] + Powers_5
+SOC_5 = SOC_4[0:8] + SOC_5
+CashFlow_5_real = sum([(-a * b) for a, b in zip(Powers_5, Price_real)])
+print('- Session 5 (re-scheduled 8-24h of D  & D1 with 4% error): {} €'.format(round(CashFlow_5_real, 2)))
+
+# Session 6
+Powers_6, SOC_6 = scheduler(SOC_3[13], Price_6[13:len(Price_6)], Batt_Emax, Batt_Pmax, Batt_Efficiency, 35)
+Powers_6 = Powers_5[0:13] + Powers_6
+SOC_6 = SOC_5[0:13] + SOC_6
+CashFlow_6_real = sum([(-a * b) for a, b in zip(Powers_6, Price_real)])
+print('- Session 6 (re-scheduled 13-24h of D & D1 with 2% error): {} €'.format(round(CashFlow_6_real, 2)))
+
+# Session 7
+Powers_7, SOC_7 = scheduler(SOC_i, Price_7, Batt_Emax, Batt_Pmax, Batt_Efficiency, len(Price_7))
+CashFlow_7 = sum([(-a * b) for a, b in zip(Powers_7, Price_7)])
+print('- Cash flow  with no errors woul\'ve been {} €'.format(round(CashFlow_7, 2)))
+
+# Separate
+Powers_D, SOC_D = scheduler(SOC_i, Price_real[0:24], Batt_Emax, Batt_Pmax, Batt_Efficiency, 24)
+Powers_D1, SOC_D1 = scheduler(SOC_D[-1], Price_real[24:48], Batt_Emax, Batt_Pmax, Batt_Efficiency, 24)
+CashFlow_sep = sum([(-a * b) for a, b in zip(Powers_D, Price_real[0:24])]) + sum([(-a * b) for a, b in zip(Powers_D1, Price_real[24:48])])
+print('- Cash flow operating in both diary markets woul\'ve been {} €'.format(round(CashFlow_sep, 2)))
 # -- Plots --
-fig = plt.figure()                              # Creating the figure
-
-# Energy price
-price_plot = fig.add_subplot(3, 1, 1)           # Creating subplot
-# Setting the grid
-ticks_x = np.arange(0, 25, 1)                   # Vertical grid spacing
-ticks_y = np.arange(30, 80, 5)                  # Thick horizontal grid spacing
-minor_ticks_y = np.arange(30, 80, 1)            # Thin horizontal grid  spacing
-price_plot.set_xticks(ticks_x)
-price_plot.set_yticks(ticks_y)
-price_plot.set_yticks(minor_ticks_y, minor=True)
-price_plot.grid(which='both')
-price_plot.grid(which='minor', alpha=0.2)       # Thin grid thickness
-price_plot.grid(which='major', alpha=0.7)       # Thick grid thickness
-# Setting the axes
-axes = plt.gca()
-axes.set_xlim([0, 24])                          # X axis limits
-# Inyecting the data
-plt.plot(Price, 'r', label='Charge')
-# Adding labels
-plt.ylabel('Price (€/MWh)')
-
-# SOC
-SOC_plot = fig.add_subplot(3, 1, 2)             # Creating subplot
-# Setting the grid
-ticks_x = np.arange(0, 50, 1)                   # Vertical grid spacing
-ticks_y = np.arange(0, 105, 10)                 # Thick horizontal grid spacing
-minor_ticks_y = np.arange(0, 100, 5)            # Thin horizontal grid  spacing
-SOC_plot.set_xticks(ticks_x)
-SOC_plot.set_yticks(ticks_y)
-SOC_plot.set_yticks(minor_ticks_y, minor=True)
-SOC_plot.grid(which='both')
-SOC_plot.grid(which='minor', alpha=0.2)         # Thin grid thickness
-SOC_plot.grid(which='major', alpha=0.7)         # Thick grid thickness
-# Setting the axes
-axes = plt.gca()
-axes.set_xlim([0, 24])                          # X axis limits
-# Inyecting the data
-plt.plot(SOC, 'b', label='Charge')
-# Adding labels
-plt.ylabel('SOC (%)')
-
-# Power
-P_output_plot = fig.add_subplot(3, 1, 3)                                    # Creating subplot
-# Setting the grid
-ticks_x = np.arange(0, 25, 1)                                               # Vertical grid spacing
-ticks_y = np.arange(-Batt_Pmax*1.5, Batt_Pmax*1.5, 0.5)                     # Thick horizontal grid spacing
-minor_ticks_y = np.arange(-Batt_Pmax*1.5, Batt_Pmax*1.5, 0.1)               # Thin horizontal grid  spacing
-P_output_plot.set_xticks(ticks_x)
-P_output_plot.set_yticks(ticks_y)
-P_output_plot.set_yticks(minor_ticks_y, minor=True)
-P_output_plot.grid(which='both')
-P_output_plot.grid(which='minor', alpha=0.2, zorder=1)                      # Thin grid thickness
-P_output_plot.grid(which='major', alpha=0.7)                                # Thick grid thickness
-# Setting the axes
-axes = plt.gca()
-axes.set_xlim([0, 24])                                                      # X axis limits
-# Inyecting the data
-x = np.arange(24)
-plt.bar(x, P_output, color='g', zorder=2)
-# Adding labels
-plt.xlabel('Time (Hours)')
-plt.ylabel('Power (MW)')
+fig = plt.figure()
+x = np.arange(48)
+# Session 0
+ax = fig.add_subplot(8, 2, 1)
+plt.bar(x, Powers_0, color='g', zorder=2)
+plt.ylabel('Session 0')
+plt.title('Schedule (MW)')
+plt.xticks(color='w')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+ax = fig.add_subplot(8, 2, 2)
+plt.plot(Price_0, 'b')
+plt.title('Prices (€/MWh)')
+plt.xticks(color='w')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+# Session 1
+ax = fig.add_subplot(8, 2, 3)
+plt.bar(x, Powers_1, color='g', zorder=2)
+plt.ylabel('Session 1')
+plt.xticks(color='w')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+ax = fig.add_subplot(8, 2, 4)
+plt.plot(Price_1, 'b')
+plt.xticks(color='w')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+# Session 2
+ax = fig.add_subplot(8, 2, 5)
+plt.bar(x, Powers_2, color='g', zorder=2)
+plt.ylabel('Session 2')
+plt.xticks(color='w')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+ax = fig.add_subplot(8, 2, 6)
+plt.plot(Price_2, 'b')
+plt.xticks(color='w')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+# Session 3
+ax = fig.add_subplot(8, 2, 7)
+plt.bar(x, Powers_3, color='g', zorder=2)
+plt.ylabel('Session 3')
+plt.xticks(color='w')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+ax = fig.add_subplot(8, 2, 8)
+plt.plot(Price_3, 'b')
+plt.xticks(color='w')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+# Session 4
+ax = fig.add_subplot(8, 2, 9)
+plt.bar(x, Powers_4, color='g', zorder=2)
+plt.ylabel('Session 4')
+plt.xticks(color='w')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+ax = fig.add_subplot(8, 2, 10)
+plt.plot(Price_4, 'b')
+plt.xticks(color='w')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+# Session 5
+ax = fig.add_subplot(8, 2, 11)
+plt.bar(x, Powers_5, color='g', zorder=2)
+plt.ylabel('Session 5')
+plt.xticks(color='w')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+ax = fig.add_subplot(8, 2, 12)
+plt.plot(Price_5, 'b')
+plt.xticks(color='w')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+# Session 6
+ax = fig.add_subplot(8, 2, 13)
+plt.bar(x, Powers_6, color='g', zorder=2)
+plt.ylabel('Session 6')
+plt.xticks(color='w')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+ax = fig.add_subplot(8, 2, 14)
+plt.plot(Price_6, 'b')
+plt.xticks(color='w')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+# Session 7
+ax = fig.add_subplot(8, 2, 15)
+plt.bar(x, Powers_7, color='g', zorder=2)
+plt.ylabel('Real schedule')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+ax = fig.add_subplot(8, 2, 16)
+plt.plot(Price_7, 'b')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
 
 # Launching the plot
 plt.show()
