@@ -24,7 +24,7 @@ Prices_pred = []
 # -- Data importing --
 data = pd.read_excel('Prices_week.xlsx', sheet_name='Prices', nrows=200)
 Price = list(data['Price'][0:169])
-k_pred = 0.15
+k_pred = 0.1
 
 # -- Daily market --
 def daily(initial_SOC, energy_price, batt_capacity, batt_maxpower, batt_efficiency):

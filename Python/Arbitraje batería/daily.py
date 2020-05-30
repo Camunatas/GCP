@@ -10,7 +10,7 @@ import pandas as pd
 
 # -- Simulation parameters --
 Batt_Emax = 10                       # Rated battery energy (MWh)
-Batt_Pmax = 10             # Rated battery power (MW)
+Batt_Pmax = 10            			 # Rated battery power (MW)
 Batt_Efficiency = 0.9               # Rated battery efficiency
 
 # -- Data initialization --

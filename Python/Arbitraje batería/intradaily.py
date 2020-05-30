@@ -50,12 +50,12 @@ def scheduler(initial_SOC, energy_price, batt_capacity, batt_maxpower, batt_effi
 	model.ESS_D = Var(model.time, bounds=(0, batt_maxpower))        # Energy being discharged
 
 	# Defining the optimization constraints
-	def c1_rule(model, t1):  # Checks there is enough room when charging
-		return (batt_maxpower * model.not_charging[t1]) >= model.ESS_C[t1]
+	def c1_rule(model, t1):  # Checks there is enough energy when charging
+		return (batt_capacity * model.not_charging[t1]) >= model.ESS_C[t1]
 	model.c1 = Constraint(model.time, rule=c1_rule)
 
-	def c2_rule(model, t1):  # Checks there is enough power when discharging
-		return (batt_maxpower * model.not_discharging[t1]) >= model.ESS_D[t1]
+	def c2_rule(model, t1):  # Checks there is enough energy when discharging
+		return (batt_capacity * model.not_discharging[t1]) >= model.ESS_D[t1]
 	model.c2 = Constraint(model.time, rule=c2_rule)
 
 	def c3_rule(model, t1):  # Prevents orders of charge and discharge simultaneously
@@ -79,17 +79,20 @@ def scheduler(initial_SOC, energy_price, batt_capacity, batt_maxpower, batt_effi
 	# Applying the solver
 	opt = SolverFactory('cbc')
 	opt.solve(model)
-	# model.pprint()
+	model.pprint()
 
 	# Extracting data from model
 	P_output = [-model.ESS_D[t1]() + model.ESS_C[t1]() for t1 in model.time]
-
 	SOC = [model.SOC[t1]() for t1 in model.time]
-	return P_output, SOC
+	if SOC[-1] == 0:
+		P_output[-1] = 0
 
-# Session 0
+	return P_output, SOC
+#
+# # Session 0
 Powers_0, SOC_0 = scheduler(SOC_i, Price_0, Batt_Emax, Batt_Pmax, Batt_Efficiency, len(Price_0))
 CashFlow_0_real = sum([(-a * b) for a, b in zip(Powers_0, Price_real)])
+print(len(Price_0))
 print('- Session 0, daily market D (scheduled D + D1 with 14% error): {} €'.format(round(CashFlow_0_real, 2)))
 
 # Session 1
@@ -135,14 +138,18 @@ print('- Cash flow  with no errors woul\'ve been {} €'.format(round(CashFlow_7
 
 # Separate
 Powers_D, SOC_D = scheduler(SOC_i, Price_real[0:24], Batt_Emax, Batt_Pmax, Batt_Efficiency, 24)
-Powers_D1, SOC_D1 = scheduler(SOC_D[-1], Price_real[24:48], Batt_Emax, Batt_Pmax, Batt_Efficiency, 24)
+Powers_D1, SOC_D1 = scheduler(SOC_i, Price_real[24:48], Batt_Emax, Batt_Pmax, Batt_Efficiency, 24)
 CashFlow_sep = sum([(-a * b) for a, b in zip(Powers_D, Price_real[0:24])]) + sum([(-a * b) for a, b in zip(Powers_D1, Price_real[24:48])])
+print(SOC_D + SOC_D1)
+print(SOC_7)
+
 print('- Cash flow operating in both diary markets woul\'ve been {} €'.format(round(CashFlow_sep, 2)))
+
 # -- Plots --
 fig = plt.figure()
 x = np.arange(48)
 # Session 0
-ax = fig.add_subplot(8, 2, 1)
+ax = fig.add_subplot(9, 2, 1)
 plt.bar(x, Powers_0, color='g', zorder=2)
 plt.ylabel('Session 0')
 plt.title('Schedule (MW)')
@@ -150,7 +157,7 @@ plt.xticks(color='w')
 ax.set_xticks(x)
 ax.set_xlim(0, 48)
 ax.grid()
-ax = fig.add_subplot(8, 2, 2)
+ax = fig.add_subplot(9, 2, 2)
 plt.plot(Price_0, 'b')
 plt.title('Prices (€/MWh)')
 plt.xticks(color='w')
@@ -158,97 +165,111 @@ ax.set_xticks(x)
 ax.set_xlim(0, 48)
 ax.grid()
 # Session 1
-ax = fig.add_subplot(8, 2, 3)
+ax = fig.add_subplot(9, 2, 3)
 plt.bar(x, Powers_1, color='g', zorder=2)
 plt.ylabel('Session 1')
 plt.xticks(color='w')
 ax.set_xticks(x)
 ax.set_xlim(0, 48)
 ax.grid()
-ax = fig.add_subplot(8, 2, 4)
+ax = fig.add_subplot(9, 2, 4)
 plt.plot(Price_1, 'b')
 plt.xticks(color='w')
 ax.set_xticks(x)
 ax.set_xlim(0, 48)
 ax.grid()
 # Session 2
-ax = fig.add_subplot(8, 2, 5)
+ax = fig.add_subplot(9, 2, 5)
 plt.bar(x, Powers_2, color='g', zorder=2)
 plt.ylabel('Session 2')
 plt.xticks(color='w')
 ax.set_xticks(x)
 ax.set_xlim(0, 48)
 ax.grid()
-ax = fig.add_subplot(8, 2, 6)
+ax = fig.add_subplot(9, 2, 6)
 plt.plot(Price_2, 'b')
 plt.xticks(color='w')
 ax.set_xticks(x)
 ax.set_xlim(0, 48)
 ax.grid()
 # Session 3
-ax = fig.add_subplot(8, 2, 7)
+ax = fig.add_subplot(9, 2, 7)
 plt.bar(x, Powers_3, color='g', zorder=2)
 plt.ylabel('Session 3')
 plt.xticks(color='w')
 ax.set_xticks(x)
 ax.set_xlim(0, 48)
 ax.grid()
-ax = fig.add_subplot(8, 2, 8)
+ax = fig.add_subplot(9, 2, 8)
 plt.plot(Price_3, 'b')
 plt.xticks(color='w')
 ax.set_xticks(x)
 ax.set_xlim(0, 48)
 ax.grid()
 # Session 4
-ax = fig.add_subplot(8, 2, 9)
+ax = fig.add_subplot(9, 2, 9)
 plt.bar(x, Powers_4, color='g', zorder=2)
 plt.ylabel('Session 4')
 plt.xticks(color='w')
 ax.set_xticks(x)
 ax.set_xlim(0, 48)
 ax.grid()
-ax = fig.add_subplot(8, 2, 10)
+ax = fig.add_subplot(9, 2, 10)
 plt.plot(Price_4, 'b')
 plt.xticks(color='w')
 ax.set_xticks(x)
 ax.set_xlim(0, 48)
 ax.grid()
 # Session 5
-ax = fig.add_subplot(8, 2, 11)
+ax = fig.add_subplot(9, 2, 11)
 plt.bar(x, Powers_5, color='g', zorder=2)
 plt.ylabel('Session 5')
 plt.xticks(color='w')
 ax.set_xticks(x)
 ax.set_xlim(0, 48)
 ax.grid()
-ax = fig.add_subplot(8, 2, 12)
+ax = fig.add_subplot(9, 2, 12)
 plt.plot(Price_5, 'b')
 plt.xticks(color='w')
 ax.set_xticks(x)
 ax.set_xlim(0, 48)
 ax.grid()
 # Session 6
-ax = fig.add_subplot(8, 2, 13)
+ax = fig.add_subplot(9, 2, 13)
 plt.bar(x, Powers_6, color='g', zorder=2)
 plt.ylabel('Session 6')
 plt.xticks(color='w')
 ax.set_xticks(x)
 ax.set_xlim(0, 48)
 ax.grid()
-ax = fig.add_subplot(8, 2, 14)
+ax = fig.add_subplot(9, 2, 14)
 plt.plot(Price_6, 'b')
 plt.xticks(color='w')
 ax.set_xticks(x)
 ax.set_xlim(0, 48)
 ax.grid()
 # Session 7
-ax = fig.add_subplot(8, 2, 15)
+ax = fig.add_subplot(9, 2, 15)
 plt.bar(x, Powers_7, color='g', zorder=2)
 plt.ylabel('Real schedule')
+plt.xticks(color='w')
 ax.set_xticks(x)
 ax.set_xlim(0, 48)
 ax.grid()
-ax = fig.add_subplot(8, 2, 16)
+ax = fig.add_subplot(9, 2, 16)
+plt.plot(Price_7, 'b')
+plt.xticks(color='w')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+# Separate
+ax = fig.add_subplot(9, 2, 17)
+plt.bar(x, Powers_D + Powers_D1, color='g', zorder=2)
+plt.ylabel('Separate schedule')
+ax.set_xticks(x)
+ax.set_xlim(0, 48)
+ax.grid()
+ax = fig.add_subplot(9, 2, 18)
 plt.plot(Price_7, 'b')
 ax.set_xticks(x)
 ax.set_xlim(0, 48)

@@ -2,9 +2,55 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f3ee6b3a-c13c-42e0-907b-2c051ef1dde0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Battery Optimization.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Battery Optimization.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/daily.py" beforeDir="false" afterPath="$PROJECT_DIR$/daily.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/intradaily.py" beforeDir="false" afterPath="$PROJECT_DIR$/intradaily.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iterative.py" beforeDir="false" afterPath="$PROJECT_DIR$/iterative.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0005.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0006.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0007.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0018.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0025.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0026.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0027.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0028.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0029.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0030.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0031.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0032.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0033.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0034.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0036.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0038.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0039.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0040.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0041.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0042.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0043.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0044.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0045.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0046.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0047.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0048.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0049.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0050.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0051.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0052.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0053.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0054.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0055.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/B0056.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/README.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/README_25_26_27_28.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/README_29_30_31_32.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/README_33_34_36.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/README_38_39_40.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/README_41_42_43_44.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/README_45_46_47_48.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/README_49_50_51_52.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/NASA/README_53_54_55_56.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scripts/Envejecedor baterías/ager.m" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,14 +71,14 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Python_env" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -168,8 +214,8 @@
       <item itemvalue="Python.battery_TIR_E" />
       <item itemvalue="Python.battery_aging" />
       <item itemvalue="Python.daily" />
-      <item itemvalue="Python.iterative" />
       <item itemvalue="Python.intradaily" />
+      <item itemvalue="Python.iterative" />
     </list>
     <recent_temporary>
       <list>
@@ -183,6 +229,7 @@
   </component>
   <component name="SvnConfiguration">
     <configuration />
+    <supportedVersion>125</supportedVersion>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -195,50 +242,64 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="330" y="68" key="FileChooserDialogImpl" timestamp="1582642481149">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589209573522">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1589209573522" />
+    <state x="464" y="97" key="FileChooserDialogImpl" timestamp="1589209332842">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="330" y="68" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1582642481149" />
-    <state width="681" height="671" key="GridCell.Tab.0.bottom" timestamp="1588423408571">
+    <state x="464" y="97" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1589209332842" />
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1589210438323">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1367" height="672" key="GridCell.Tab.0.bottom/-1366.321.1366.728/0.0.1920.1040@-1366.321.1366.728" timestamp="1587977536035" />
-    <state width="681" height="671" key="GridCell.Tab.0.bottom/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588423408571" />
+    <state width="1367" height="672" key="GridCell.Tab.0.bottom/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588698038627" />
     <state width="1259" height="163" key="GridCell.Tab.0.bottom/0.0.1366.728/-1280.-485.1280.984@-1280.-485.1280.984" timestamp="1583166399580" />
     <state width="1345" height="163" key="GridCell.Tab.0.bottom/0.0.1366.728/-1280.-485.1280.984@0.0.1366.728" timestamp="1582736355472" />
     <state width="1899" height="328" key="GridCell.Tab.0.bottom/0.0.1366.728/-1920.-583.1920.1040@-1920.-583.1920.1040" timestamp="1584718216415" />
+    <state width="1367" height="672" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.-321.1920.1040@1366.-321.1920.1040" timestamp="1588872493540" />
     <state width="1345" height="163" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1582643155440" />
-    <state width="681" height="671" key="GridCell.Tab.0.center" timestamp="1588423408571">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589210438323" />
+    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1589210438323">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1367" height="672" key="GridCell.Tab.0.center/-1366.321.1366.728/0.0.1920.1040@-1366.321.1366.728" timestamp="1587977536035" />
-    <state width="681" height="671" key="GridCell.Tab.0.center/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588423408571" />
+    <state width="1367" height="672" key="GridCell.Tab.0.center/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588698038627" />
     <state width="1259" height="163" key="GridCell.Tab.0.center/0.0.1366.728/-1280.-485.1280.984@-1280.-485.1280.984" timestamp="1583166399580" />
     <state width="1345" height="163" key="GridCell.Tab.0.center/0.0.1366.728/-1280.-485.1280.984@0.0.1366.728" timestamp="1582736355472" />
     <state width="1899" height="328" key="GridCell.Tab.0.center/0.0.1366.728/-1920.-583.1920.1040@-1920.-583.1920.1040" timestamp="1584718216415" />
+    <state width="1367" height="672" key="GridCell.Tab.0.center/0.0.1366.728/1366.-321.1920.1040@1366.-321.1920.1040" timestamp="1588872493540" />
     <state width="1345" height="163" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1582643155440" />
-    <state width="681" height="671" key="GridCell.Tab.0.left" timestamp="1588423408571">
+    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589210438323" />
+    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1589210438323">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1367" height="672" key="GridCell.Tab.0.left/-1366.321.1366.728/0.0.1920.1040@-1366.321.1366.728" timestamp="1587977536034" />
-    <state width="681" height="671" key="GridCell.Tab.0.left/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588423408571" />
+    <state width="1367" height="672" key="GridCell.Tab.0.left/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588698038627" />
     <state width="1259" height="163" key="GridCell.Tab.0.left/0.0.1366.728/-1280.-485.1280.984@-1280.-485.1280.984" timestamp="1583166399580" />
     <state width="1345" height="163" key="GridCell.Tab.0.left/0.0.1366.728/-1280.-485.1280.984@0.0.1366.728" timestamp="1582736355471" />
     <state width="1899" height="328" key="GridCell.Tab.0.left/0.0.1366.728/-1920.-583.1920.1040@-1920.-583.1920.1040" timestamp="1584718216415" />
+    <state width="1367" height="672" key="GridCell.Tab.0.left/0.0.1366.728/1366.-321.1920.1040@1366.-321.1920.1040" timestamp="1588872493540" />
     <state width="1345" height="163" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1582643155440" />
-    <state width="681" height="671" key="GridCell.Tab.0.right" timestamp="1588423408571">
+    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589210438323" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1589210438323">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1367" height="672" key="GridCell.Tab.0.right/-1366.321.1366.728/0.0.1920.1040@-1366.321.1366.728" timestamp="1587977536035" />
-    <state width="681" height="671" key="GridCell.Tab.0.right/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588423408571" />
+    <state width="1367" height="672" key="GridCell.Tab.0.right/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588698038627" />
     <state width="1259" height="163" key="GridCell.Tab.0.right/0.0.1366.728/-1280.-485.1280.984@-1280.-485.1280.984" timestamp="1583166399580" />
     <state width="1345" height="163" key="GridCell.Tab.0.right/0.0.1366.728/-1280.-485.1280.984@0.0.1366.728" timestamp="1582736355472" />
     <state width="1899" height="328" key="GridCell.Tab.0.right/0.0.1366.728/-1920.-583.1920.1040@-1920.-583.1920.1040" timestamp="1584718216415" />
+    <state width="1367" height="672" key="GridCell.Tab.0.right/0.0.1366.728/1366.-321.1920.1040@1366.-321.1920.1040" timestamp="1588872493540" />
     <state width="1345" height="163" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1582643155440" />
-    <state x="184" y="7" key="SettingsEditor" timestamp="1582642408163">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589210438323" />
+    <state x="478" y="166" key="SettingsEditor" timestamp="1589209715653">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="184" y="7" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1582642408163" />
+    <state x="478" y="166" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1589209715653" />
     <state x="-925" y="-231" key="com.intellij.ide.util.TipDialog" timestamp="1582821674879">
       <screen x="-1280" y="-485" width="1280" height="984" />
     </state>
