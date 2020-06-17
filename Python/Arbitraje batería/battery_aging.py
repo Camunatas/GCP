@@ -23,7 +23,7 @@ SOC_i = 0                           # Initial battery SOC
 # 	Schedule_DM.append(0)
 
 # -- Data importing --
-data = pd.read_excel('Prices_real.xlsx', sheet_name='Prices_real', nrows=200)  # TODO: Change to csv
+data = pd.read_excel('Prices.xlsx', sheet_name='Prices')
 Price = list(data['Price'][0:25])
 
 
@@ -78,8 +78,8 @@ def daily(initial_SOC, energy_price, batt_capacity, batt_maxpower, batt_efficien
 	# Charge = [model.ESS_C[t1]() + model.ESS_D[t1]() for t1 in model.time]
 	SOC = [model.SOC[t1]() for t1 in model.time]
 	P_output = [-model.ESS_D[t1]() + model.ESS_C[t1]() for t1 in model.time]
-	Cycle_cost = [batt_price * 0.01175 * 0.01 * ((model.ESS_D[t1]() + model.ESS_C[t1]())/batt_capacity) for t1 in model.time]
-	Cap_fade = [0.01175 * 0.01 * (1-(model.ESS_D[t1]() + model.ESS_C[t1]())/batt_capacity) for t1 in model.time]
+	Cycle_cost = [batt_price * 0.01175 * 0.0001 * ((model.ESS_D[t1]() + model.ESS_C[t1]())/batt_capacity) for t1 in model.time]
+	Cap_fade = [0.01*0.01175 * 0.01 * (1-(model.ESS_D[t1]() + model.ESS_C[t1]())/batt_capacity) for t1 in model.time]
 	return SOC, P_output, Cycle_cost, Cap_fade
 
 

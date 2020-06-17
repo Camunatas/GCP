@@ -133,8 +133,8 @@ plt.ylabel('SOC (%)')
 P_output_plot = fig.add_subplot(3, 1, 3)                                    # Creating subplot
 # Setting the grid
 ticks_x = np.arange(0, 25, 1)                                               # Vertical grid spacing
-ticks_y = np.arange(-Batt_Pmax*1.5, Batt_Pmax*1.5, 0.5)                     # Thick horizontal grid spacing
-minor_ticks_y = np.arange(-Batt_Pmax*1.5, Batt_Pmax*1.5, 0.1)               # Thin horizontal grid  spacing
+ticks_y = np.arange(-Batt_Pmax*1.5, Batt_Pmax*1.5, 2)                     	# Thick horizontal grid spacing
+minor_ticks_y = np.arange(-Batt_Pmax*1.5, Batt_Pmax*1.5, 1)               # Thin horizontal grid  spacing
 P_output_plot.set_xticks(ticks_x)
 P_output_plot.set_yticks(ticks_y)
 P_output_plot.set_yticks(minor_ticks_y, minor=True)

@@ -25,7 +25,7 @@ SOC_i = 0                           # [%] Initial battery SOC
 # Schedule_DM.append(0)
 
 # -- Data importing --
-data = pd.read_excel('Prices_real.xlsx', sheet_name='Prices_real', nrows=200)
+data = pd.read_excel('Prices.xlsx', sheet_name='Prices')
 
 # -- Generating price prediction
 Price_0 = list(data['Price'][0:25])
