@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f3ee6b3a-c13c-42e0-907b-2c051ef1dde0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/battery_aging.py" beforeDir="false" afterPath="$PROJECT_DIR$/battery_aging.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/battery_pricepred.py" beforeDir="false" afterPath="$PROJECT_DIR$/battery_pricepred.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/daily.py" beforeDir="false" afterPath="$PROJECT_DIR$/daily.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/battery_seasons.py" beforeDir="false" afterPath="$PROJECT_DIR$/battery_seasons.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/intradaily.py" beforeDir="false" afterPath="$PROJECT_DIR$/intradaily.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,7 +36,49 @@
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.intradaily">
+  <component name="RunManager" selected="Python.data_visualization">
+    <configuration name="ARIMA" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Battery Optimization" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../ARIMA" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../ARIMA/ARIMA.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="ARIMA_rolling" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Battery Optimization" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../ARIMA" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../ARIMA/ARIMA_rolling.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="GAMESA5" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Battery Optimization" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -60,7 +100,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="battery_aging" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="auto-arima" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Battery Optimization" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -68,11 +108,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../ARIMA" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/battery_aging.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../ARIMA/auto-arima.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -81,7 +121,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="battery_pricepred" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="data_visualization" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Battery Optimization" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -89,11 +129,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../ARIMA" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/battery_pricepred.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../ARIMA/data_visualization.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -102,7 +142,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="daily" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="residuals_pdf" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Battery Optimization" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -110,53 +150,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../ARIMA" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/daily.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="intradaily" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Battery Optimization" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/intradaily.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="iterative" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Battery Optimization" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/iterative.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../ARIMA/residuals_pdf.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -167,19 +165,19 @@
     </configuration>
     <list>
       <item itemvalue="Python.GAMESA5" />
-      <item itemvalue="Python.battery_aging" />
-      <item itemvalue="Python.daily" />
-      <item itemvalue="Python.intradaily" />
-      <item itemvalue="Python.iterative" />
-      <item itemvalue="Python.battery_pricepred" />
+      <item itemvalue="Python.auto-arima" />
+      <item itemvalue="Python.residuals_pdf" />
+      <item itemvalue="Python.ARIMA_rolling" />
+      <item itemvalue="Python.ARIMA" />
+      <item itemvalue="Python.data_visualization" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.intradaily" />
-        <item itemvalue="Python.battery_aging" />
-        <item itemvalue="Python.iterative" />
-        <item itemvalue="Python.battery_pricepred" />
-        <item itemvalue="Python.daily" />
+        <item itemvalue="Python.data_visualization" />
+        <item itemvalue="Python.ARIMA" />
+        <item itemvalue="Python.auto-arima" />
+        <item itemvalue="Python.residuals_pdf" />
+        <item itemvalue="Python.ARIMA_rolling" />
       </list>
     </recent_temporary>
   </component>
@@ -206,41 +204,41 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="464" y="97" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1589209332842" />
-    <state width="1921" height="984" key="GridCell.Tab.0.bottom" timestamp="1591981922402">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="958" height="983" key="GridCell.Tab.0.bottom" timestamp="1596916315922">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1367" height="672" key="GridCell.Tab.0.bottom/-1366.321.1366.728/0.0.1920.1040@-1366.321.1366.728" timestamp="1587977536035" />
     <state width="1367" height="672" key="GridCell.Tab.0.bottom/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588698038627" />
-    <state width="1899" height="328" key="GridCell.Tab.0.bottom/0.0.1366.728/-1920.-583.1920.1040@-1920.-583.1920.1040" timestamp="1584718216415" />
+    <state width="958" height="983" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.-305.1920.1040@0.0.1366.728" timestamp="1596916315922" />
     <state width="1367" height="672" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.-321.1920.1040@1366.-321.1920.1040" timestamp="1588872493540" />
-    <state width="1921" height="984" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1591981922402" />
+    <state width="1367" height="672" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1593361805165" />
+    <state width="1921" height="984" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1592934428941" />
     <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589210438323" />
-    <state width="1921" height="984" key="GridCell.Tab.0.center" timestamp="1591981922402">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="958" height="983" key="GridCell.Tab.0.center" timestamp="1596916315922">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1367" height="672" key="GridCell.Tab.0.center/-1366.321.1366.728/0.0.1920.1040@-1366.321.1366.728" timestamp="1587977536035" />
     <state width="1367" height="672" key="GridCell.Tab.0.center/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588698038627" />
-    <state width="1899" height="328" key="GridCell.Tab.0.center/0.0.1366.728/-1920.-583.1920.1040@-1920.-583.1920.1040" timestamp="1584718216415" />
+    <state width="958" height="983" key="GridCell.Tab.0.center/0.0.1366.728/1366.-305.1920.1040@0.0.1366.728" timestamp="1596916315922" />
     <state width="1367" height="672" key="GridCell.Tab.0.center/0.0.1366.728/1366.-321.1920.1040@1366.-321.1920.1040" timestamp="1588872493540" />
-    <state width="1921" height="984" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1591981922402" />
+    <state width="1367" height="672" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1593361805165" />
+    <state width="1921" height="984" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1592934428941" />
     <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589210438323" />
-    <state width="1921" height="984" key="GridCell.Tab.0.left" timestamp="1591981922402">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="958" height="983" key="GridCell.Tab.0.left" timestamp="1596916315921">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1367" height="672" key="GridCell.Tab.0.left/-1366.321.1366.728/0.0.1920.1040@-1366.321.1366.728" timestamp="1587977536034" />
     <state width="1367" height="672" key="GridCell.Tab.0.left/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588698038627" />
-    <state width="1899" height="328" key="GridCell.Tab.0.left/0.0.1366.728/-1920.-583.1920.1040@-1920.-583.1920.1040" timestamp="1584718216415" />
+    <state width="958" height="983" key="GridCell.Tab.0.left/0.0.1366.728/1366.-305.1920.1040@0.0.1366.728" timestamp="1596916315921" />
     <state width="1367" height="672" key="GridCell.Tab.0.left/0.0.1366.728/1366.-321.1920.1040@1366.-321.1920.1040" timestamp="1588872493540" />
-    <state width="1921" height="984" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1591981922402" />
+    <state width="1367" height="672" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1593361805165" />
+    <state width="1921" height="984" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1592934428941" />
     <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589210438323" />
-    <state width="1921" height="984" key="GridCell.Tab.0.right" timestamp="1591981922402">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="958" height="983" key="GridCell.Tab.0.right" timestamp="1596916315922">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1367" height="672" key="GridCell.Tab.0.right/-1366.321.1366.728/0.0.1920.1040@-1366.321.1366.728" timestamp="1587977536035" />
     <state width="1367" height="672" key="GridCell.Tab.0.right/-1366.321.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588698038627" />
-    <state width="1899" height="328" key="GridCell.Tab.0.right/0.0.1366.728/-1920.-583.1920.1040@-1920.-583.1920.1040" timestamp="1584718216415" />
+    <state width="958" height="983" key="GridCell.Tab.0.right/0.0.1366.728/1366.-305.1920.1040@0.0.1366.728" timestamp="1596916315922" />
     <state width="1367" height="672" key="GridCell.Tab.0.right/0.0.1366.728/1366.-321.1920.1040@1366.-321.1920.1040" timestamp="1588872493540" />
-    <state width="1921" height="984" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1591981922402" />
+    <state width="1367" height="672" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1593361805165" />
+    <state width="1921" height="984" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1592934428941" />
     <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589210438323" />
     <state x="478" y="166" key="SettingsEditor" timestamp="1589209715653">
       <screen x="0" y="0" width="1920" height="1040" />
