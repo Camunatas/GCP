@@ -1,9 +1,10 @@
-# Forecast with ARIMA model of electricity price
+# Fuzzy forecast with ARIMA model and normal distributions
 import pandas as pd
-import statsmodels.api as sm
 import numpy as np
-from matplotlib import pyplot as plt
-from sklearn.metrics import mean_squared_error
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+import scipy.stats as stats
+import random as rand
 
 # Loading csv
 fields = ["Price", "Hour"]
@@ -32,18 +33,32 @@ model_order = (2, 0, 0)
 model_seasonal_order = (2, 1, 1, 24)
 
 model = sm.tsa.statespace.SARIMAX(prices_train, order=model_order, seasonal_order=model_seasonal_order)
-# Fitting model
 model_fit = model.fit(disp=0)
 
-# Printing day-ahead forecast
-prices_pred = model_fit.forecast(steps=24)
-print(prices_test)
-print(prices_pred)
+# Model diagnosis
+# model_fit.plot_diagnostics(figsize=(15, 12))
+# plt.show()
 
-# Plotting day ahead forecast & real values comparison
-plt.plot(prices_test, label='Real')
-plt.plot(prices_pred, color='red', label='Prediction')
-plt.legend()
-plt.xlabel("Time (h)")
-plt.ylabel("Price (€/MWh)")
+# Getting confidence intervals for next 24 out-of-sample predictions
+conf_ins = model_fit.get_forecast(24).summary_frame()
+print(conf_ins)
+
+# Function for obtaining kde for each look-ahead hour probabilistic forecast
+def hourly_kde(h):
+    samples = 999
+    s = [np.random.normal(conf_ins.iloc[h, 0], (conf_ins.iloc[h, 3] - conf_ins.iloc[h, 2])/3) for i in range(samples)]
+    kde = stats.gaussian_kde(s)
+    kde.set_bandwidth(bw_method='silverman')
+
+    return kde
+
+# Plotting results
+fig = plt.figure()
+xs = np.linspace(20, 110, num=200)
+for i in range(24):
+    ax = fig.add_subplot(4, 6, i + 1)
+    kde = hourly_kde(i)
+    plt.plot(xs, kde(xs))
+    plt.title(str(i) + ':00')
 plt.show()
+

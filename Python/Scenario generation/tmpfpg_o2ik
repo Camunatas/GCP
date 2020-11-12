@@ -1,0 +1,46 @@
+# Script for generating prediction scenarios of an ARIMA model by using normal distributions
+
+#%% Importing libraries
+import pandas as pd
+import numpy as np
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+import scipy.stats as stats
+import random as rand
+import time
+
+#%% Loading csv
+fields = ["Price", "Hour"]
+prices_df = pd.read_csv('Prices_2019.csv', sep=';', usecols=fields, parse_dates=[1])
+
+#%% Setting interval
+init = '2019-01-01 00:00:00'  # First hour to appear
+init_index = np.where(prices_df["Hour"] == init)[0][0]
+end = '2019-03-21 23:00:00'  # Last hour to appear
+end_index = np.where(prices_df["Hour"] == end)[0][0] + 1
+
+#%% Creating training and test data
+prices = []
+hours = []
+for i in range(init_index, end_index):
+    prices.append(prices_df.iloc[i, 0])
+    hours.append(prices_df.iloc[i, 1])
+
+train = 50
+test = 1
+prices_train = list(prices[0:24 * train])
+prices_test = list(prices[24 * train:24 * (train + test)])
+
+#%% Creating arima model (SEASONAL)
+model_order = (2, 0, 0)
+model_seasonal_order = (2, 1, 1, 24)
+model_order = (8, 0, 6)
+model = sm.tsa.statespace.SARIMAX(prices_train, order=model_order)
+model_fit = model.fit(disp=0)
+
+
+#%% Testing Simulate 
+sim = model_fit.simulate(24, repetitions=10, anchor='end')
+plt.plot(sim)
+plt.plot(prices_test, 'r')  
+plt.show()

@@ -28,10 +28,12 @@ prices_train = list(prices[0:24 * train])
 prices_test = list(prices[24 * train:24 * (train + test)])
 
 # Creating arima model
-model_order = (2, 0, 0)
+# model_order = (2, 0, 0)
+model_order = (8, 0, 6)
 model_seasonal_order = (2, 1, 1, 24)
 
-model = sm.tsa.statespace.SARIMAX(prices_train, order=model_order, seasonal_order=model_seasonal_order)
+# model = sm.tsa.statespace.SARIMAX(prices_train, order=model_order, seasonal_order=model_seasonal_order)
+model = sm.tsa.statespace.SARIMAX(prices_train, order=model_order)
 # Fitting model
 model_fit = model.fit(disp=0)
 
