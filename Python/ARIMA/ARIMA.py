@@ -5,6 +5,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from sklearn.metrics import mean_squared_error
 
+#%% Loading data
 # Loading csv
 fields = ["Price", "Hour"]
 prices_df = pd.read_csv('Prices_2019.csv', sep=';', usecols=fields, parse_dates=[1])
@@ -27,6 +28,7 @@ test = 1
 prices_train = list(prices[0:24 * train])
 prices_test = list(prices[24 * train:24 * (train + test)])
 
+#%% Setting ARIMA model
 # Creating arima model
 model_order = (2, 0, 0)
 model_seasonal_order = (2, 1, 1, 24)
@@ -40,6 +42,7 @@ prices_pred = model_fit.forecast(steps=24)
 print(prices_test)
 print(prices_pred)
 
+#%% Plotting results
 # Plotting day ahead forecast & real values comparison
 plt.plot(prices_test, label='Real')
 plt.plot(prices_pred, color='red', label='Prediction')

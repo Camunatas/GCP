@@ -3,7 +3,7 @@
 #%% Importing libraries
 import pandas as pd
 import numpy as np
-# import pmdarima as pm
+import pmdarima as pm
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 import scipy.stats as stats
@@ -11,59 +11,68 @@ import h5py
 import copy
 from scipy.spatial.distance import cdist
 from sklearn.preprocessing import scale
-
-#%% Loading csv
+import datetime 
+from pyscenarios.gaussian_copula import gaussian_copula
+import copula
+#%% Importing data
+# Loading csv
 fields = ["Price", "Hour"]
 prices_df = pd.read_csv('Prices_2019.csv', sep=';', usecols=fields, parse_dates=[1])
-
-#%% Setting interval
+# Setting interval
 init = '2019-01-01 00:00:00'  # First hour to appear
 init_index = np.where(prices_df["Hour"] == init)[0][0]
 end = '2019-12-31 23:00:00'  # Last hour to appear
 end_index = np.where(prices_df["Hour"] == end)[0][0] + 1
 
-#%% Creating training and test data
+# Generating list with prices and hours
 prices = []
 hours = []
 for i in range(init_index, end_index):
     prices.append(prices_df.iloc[i, 0])
     hours.append(prices_df.iloc[i, 1])
 
-train = 150
+# Creating datasets
+train = 100
 test = 1
 prices_train = list(prices[0:24 * train])
 prices_test = list(prices[24 * train:24 * (train + test)])
 
-#%% Creating arima model (SEASONAL)
-model_order = (2, 0, 0)
+# Generating list with dates
+date_init = datetime.datetime.fromtimestamp(1546297200)
+Dates = []
+for i in range(end_index, end_index+24*test):
+    Dates.append(datetime.datetime.fromtimestamp(1546297200 + 3600*i).hour + 
+				 datetime.datetime.fromtimestamp(1546297200 + 3600*i).minute)
+
+#%% Setting SARIMA model
+model_order = (5, 1, 1)
 model_seasonal_order = (2, 1, 1, 24)
-model_order = (8, 0, 6)
-model = sm.tsa.statespace.SARIMAX(prices_train, order=model_order)
-# model = pm.auto_arima(prices_train, start_p=0, start_q=0,
-#                            max_p=10, max_q=10, m=24,
-#                            start_P=0, seasonal=True,
-#                            d=0, D=1, trace=True,
-#                            error_action='ignore',
-#                            suppress_warnings=True,
-#                            stepwise=True)
+
+model = sm.tsa.statespace.SARIMAX(prices_train, order=model_order, seasonal_order=model_seasonal_order)
+# model = sm.tsa.statespace.SARIMAX(prices_train, order=model_order)
+# Fitting model
 model_fit = model.fit(disp=0)
 
-
 #%% Generating scenarios
-n_scenarios = 100  # Number of scenarios
-sim = model_fit.simulate(nsimulations = n_scenarios, repetitions=24, anchor='end')
+n_scenarios = 10  # Number of scenarios
+sigma2 = 2
+measurement_shocks = np.zeros(n_scenarios)
+state_shocks = np.random.normal(scale=sigma2**0.05, size=n_scenarios)
+sim = model_fit.simulate(nsimulations = n_scenarios, repetitions=24,
+						 measurement_shocks=measurement_shocks,
+						 state_shocks=state_shocks, anchor='end')
 sim = np.reshape(sim,[n_scenarios,24])
 
 # Plotting scenarios
 for i in range(n_scenarios):
     plt.plot(sim[i], c=np.random.rand(3,), label='Scenario')
-    # plt.plot(prices_test, linestyle='dotted', color='red')
+    plt.plot(prices_test, linestyle='dotted', color='red')
     plt.xlabel("Hour")
     plt.ylabel("Price (€/MWh)")
 plt.show()
 
 #%% Reducing scenarios
-f = h5py.File("test_data.h5", "r")
+# f = h5py.File("test_data.h5", "r")
 def scenred(scenarios):
     d = dict()
     d['param1'] = scenarios[()]
