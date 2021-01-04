@@ -9,12 +9,13 @@ import statsmodels.api as sm
 from sklearn.metrics import mean_squared_error
 
 # -- Parameters --
-Batt_Enom = 34					# [MWh] Battery nominal capacity
-Batt_Pnom = 20					# [MW] Battery nominal power
+Batt_Enom = 1					# [MWh] Battery nominal capacity
+Batt_Pnom = 1.5					# [MW] Battery nominal power
 Batt_ChEff = 0.9				# BESS charging efficiency
 Batt_DchEff = 0.9			    # BESS discharging efficiency
 Batt_Cost= 20000               	# [€] BESS cost
-day = '2019-04-11'				# Day for schedule
+# Batt_Cost= 0               	# [€] BESS cost
+day = '2019-11-04'				# Day for schedule YYY-DD-MM
 Batt_Eff = 0.9					# Provisional Battery efficiency
 Batt_SOC_init = 0				# Initial SOC
 rej_c = [0] * 24            	# Purchasing bids rejected (1) by system operator
@@ -50,8 +51,8 @@ def daily_forecast(day, train):
 	# Creating SARIMA model
 	# model_order = (8, 0, 6)
 	# model = sm.tsa.statespace.SARIMAX(prices_train, order=model_order)
-	model_order = (2, 0, 0)
-	model_seasonal_order = (2, 1, 1, 24)
+	model_order = (5, 1, 1)
+	model_seasonal_order = (1, 1, 1, 24)
 	model = sm.tsa.statespace.SARIMAX(prices_train, order=model_order, seasonal_order=model_seasonal_order)
 	# Fitting model
 	model_fit = model.fit(disp=0)
@@ -61,7 +62,7 @@ def daily_forecast(day, train):
 	return prices_pred
 
 #%% -- Obtaining real and predicted prices
-predicted_prices = daily_forecast(day, 50)
+predicted_prices = daily_forecast(day, 100)
 real_prices = daily_prices(day)
 # predicted_prices = real_prices
 
@@ -209,15 +210,23 @@ print(market_report)
 print("Benefits with real prices are {}".format(round(sum(Ben_real), 2)))
 print("Expected benefits with price forecast are {}".format(round(sum(Ben_pred), 2)))
 #%% -- Visualization engine --
+prediction_comparator = False    # Enables comparing schedule with forecast
+
+# X axis dates label
+dates_label = []
+for i in range(24):
+	dates_label.append('{}:00'.format(i))
+    
+    
 fig = plt.figure()                              # Creating the figure
 
 # Energy price
 price_plot = fig.add_subplot(3, 1, 1)           # Creating subplot
 # Setting the grid
-ticks_x = np.arange(0, 25, 1)                   # Vertical grid spacing
+ticks_x = np.arange(0, 24, 1)                   # Vertical grid spacing
 ticks_y = np.arange(30, 80, 5)                  # Thick horizontal grid spacing
 minor_ticks_y = np.arange(30, 80, 2.5)            # Thin horizontal grid  spacing
-price_plot.set_xticks(ticks_x)
+plt.xticks(np.arange(0, 24, 1), dates_label, rotation=45)
 price_plot.set_yticks(ticks_y)
 price_plot.set_yticks(minor_ticks_y, minor=True)
 price_plot.grid(which='both')
@@ -226,20 +235,25 @@ price_plot.grid(which='major', alpha=0.7)       # Thick grid thickness
 # Setting the axes
 axes = plt.gca()
 axes.set_xlim([0, 24])                          # X axis limits
+axes.set_ylim([30, 55])                          # X axis limits
 # Inyecting the data
-plt.plot(real_prices, 'b', label='Real price')
-plt.plot(predicted_prices, 'r', label='Predicted price')
-plt.legend()
+if prediction_comparator: 
+    plt.plot(real_prices, 'b', label='Real price')
+plt.bar(ticks_x, predicted_prices, align='edge', width=1, edgecolor='black',color='r', label='Predicted price')
+# plt.xticks(np.arange(0, 24, 1), dates_label, rotation=45)
+if prediction_comparator: 
+    plt.legend()
 # Adding labels
 plt.ylabel('Price (€/MWh)')
+plt.grid()
 
 # SOC
 SOC_plot = fig.add_subplot(3, 1, 2)             # Creating subplot
 # Setting the grid
 ticks_x = np.arange(0, 50, 1)                   # Vertical grid spacing
-ticks_y = np.arange(0, 105, 10)                 # Thick horizontal grid spacing
+ticks_y = np.arange(0, 105, 25)                 # Thick horizontal grid spacing
 minor_ticks_y = np.arange(0, 100, 5)            # Thin horizontal grid  spacing
-SOC_plot.set_xticks(ticks_x)
+plt.xticks(np.arange(0, 24, 1), dates_label, rotation=45)
 SOC_plot.set_yticks(ticks_y)
 SOC_plot.set_yticks(minor_ticks_y, minor=True)
 SOC_plot.grid(which='both')
@@ -248,20 +262,23 @@ SOC_plot.grid(which='major', alpha=0.7)         # Thick grid thickness
 # Setting the axes
 axes = plt.gca()
 axes.set_xlim([0, 24])                          # X axis limits
+axes.set_ylim([0, 110])                          # X axis limits
 # Inyecting the data
 plt.plot(SOCs, 'r', label='Predicted price')
-plt.plot(SOCs_real, 'b', label='Real price')
-plt.legend()
+if prediction_comparator: 
+    plt.plot(SOCs_real, 'b', label='Real price')
+    plt.legend()
 # Adding labels
 plt.ylabel('SOC (%)')
+plt.grid()
 
 # Power
 P_output_plot = fig.add_subplot(3, 1, 3)                                    # Creating subplot
 # Setting the grid
 ticks_x = np.arange(0, 25, 1)                                               # Vertical grid spacing
-ticks_y = np.arange(-Batt_Pnom*1.5, Batt_Pnom*1.5, 5)                     	# Thick horizontal grid spacing
+ticks_y = np.arange(-Batt_Pnom*1, Batt_Pnom*1, 0.5)                     	# Thick horizontal grid spacing
 minor_ticks_y = np.arange(-Batt_Pnom*1.5, Batt_Pnom*1.5, 2.5)               # Thin horizontal grid  spacing
-P_output_plot.set_xticks(ticks_x)
+plt.xticks(np.arange(0, 24, 1), dates_label, rotation=45)
 P_output_plot.set_yticks(ticks_y)
 P_output_plot.set_yticks(minor_ticks_y, minor=True)
 P_output_plot.grid(which='both')
@@ -269,16 +286,19 @@ P_output_plot.grid(which='minor', alpha=0.2, zorder=1)                      # Th
 P_output_plot.grid(which='major', alpha=0.7)                                # Thick grid thickness
 # Setting the axes
 axes = plt.gca()
-axes.set_xlim([0, 24])                                                      # X axis limits
+axes.set_xlim([0, 24])   
+axes.set_ylim([-1.5, 1.5])                                                       # X axis limits
 # Inyecting the data
 x = np.arange(24)
 # plt.bar(x, Powers, color='g', zorder=2)
-plt.bar(x-0.25, Powers, width=0.5, color='r', align='center', label='Predicted price')
-plt.bar(x+0.25, Powers_real, width=0.5, color='b', align='center', label='Real price')
-plt.legend()
+if prediction_comparator: 
+    plt.bar(x+0.25, Powers_real, width=0.5, color='b', align='center', label='Real price')
+    plt.legend()
+plt.bar(x, Powers, width=1, color='r', edgecolor='black', align='edge', label='Predicted price')
 # Adding labels
 plt.xlabel('Time (Hours)')
 plt.ylabel('Power (MW)')
+plt.grid()
 
 # Launching the plot
 plt.show()
